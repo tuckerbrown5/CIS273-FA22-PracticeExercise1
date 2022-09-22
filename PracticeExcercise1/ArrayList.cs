@@ -55,6 +55,11 @@ namespace PracticeExercise1
         /// <param name="value"></param>
         public void Append(int value)
         {
+            if(Length == array.Length)
+            {
+                Resize();
+            }
+
             array[length] = value;
             length++;
         }
@@ -117,6 +122,11 @@ namespace PracticeExercise1
         /// <param name="value"></param>
         public void Prepend(int value)
         {
+            if (Length == array.Length)
+            {
+                Resize();
+            }
+
             // shift elements to right
             ShiftRight(0);
 
