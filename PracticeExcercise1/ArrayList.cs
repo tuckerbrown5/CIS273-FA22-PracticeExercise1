@@ -173,7 +173,6 @@ namespace PracticeExercise1
             length--;
         }
 
-        // TODO
         public override string ToString()
         {
             string str = "[ ";
@@ -207,6 +206,7 @@ namespace PracticeExercise1
             return element;
 
         }
+
         /// <summary>
         /// Remove all elements from list
         /// </summary>
@@ -215,6 +215,10 @@ namespace PracticeExercise1
             length = 0;
         }
 
+        /// <summary>
+        /// Return a new copy of list in reverse order
+        /// </summary>
+        /// <returns></returns>
         public IList Reverse()
         {
             IList reverse = new ArrayList();
@@ -226,6 +230,7 @@ namespace PracticeExercise1
 
             return reverse;
         }
+
 
         private void Resize()
         {
