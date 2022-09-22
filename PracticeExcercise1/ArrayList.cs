@@ -12,30 +12,41 @@ namespace PracticeExercise1
             length = 0;
 		}
 
-        // TODO
         /// <summary>
         /// Returns first element in list, null if empty.
         /// </summary>
-        public int First { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int? First
+        {
+            //get
+            //{
+            //    if (IsEmpty)
+            //    {
+            //        return null;
+            //    }
+            //    else
+            //    {
+            //        return array[0];
+            //    }
+            //}
+
+            get => IsEmpty ? null : array[0];
+        }
 
         // TODO
         /// <summary>
         /// Returns last element in list, null if empty.
         /// </summary>
-        public int Last { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int? Last { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        // TODO
         /// <summary>
         /// Returns true if list is has no elements; false otherwise.
         /// </summary>
-        public bool IsEmpty { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsEmpty { get => Length == 0; }
 
         /// <summary>
         /// Number of elements in list.
         /// </summary>
-        public int Length {
-            get => length;
-        }
+        public int Length { get => length; }
 
         // TODO fix capacity bug
         /// <summary>
@@ -110,16 +121,26 @@ namespace PracticeExercise1
             ShiftRight(0);
 
             array[0] = value;
+            length++;
 
         }
 
-        private void ShiftRight( int index)
+        private void ShiftRight(int index)
         {
             for(int i = Length-1; i >= index; i--)
             {
                 array[i + 1] = array[i];
             }
         }
+
+        private void ShiftLeft( int startingIndex)
+        {
+            for(int i = startingIndex+1; i <= Length; i++ )
+            {
+                array[i-1] = array[i];
+            }
+        }
+
 
         // TODO
         /// <summary>
@@ -138,14 +159,69 @@ namespace PracticeExercise1
         /// <param name="index"></param>
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            ShiftLeft(index);
+            length--;
         }
 
         // TODO
         public override string ToString()
         {
-            throw new NotImplementedException();
+            string str = "[ ";
+
+            for(int i=0; i < Length-1; i++)
+            {
+                str += array[i] + ", ";
+            }
+
+            str += array[Length - 1];
+            str += "]";
+
+            return str;
+
         }
+
+        /// <summary>
+        /// Return the element at the given index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>The element at the given index.</returns>
+        public int Get(int index)
+        {
+            if(index > Length - 1 || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            int element = array[index];
+
+            return element;
+
+        }
+        /// <summary>
+        /// Remove all elements from list
+        /// </summary>
+        public void Clear()
+        {
+            length = 0;
+        }
+
+        public IList Reverse()
+        {
+            IList reverse = new ArrayList();
+
+            for(int i = 0; i < Length; i++)
+            {
+                reverse.Prepend(array[i]);
+            }
+
+            return reverse;
+        }
+
+        private void Resize()
+        {
+            Array.Resize(ref array, 2 * array.Length);
+        }
+
     }
 }
 
