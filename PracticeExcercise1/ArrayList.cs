@@ -1,42 +1,27 @@
 ﻿using System;
 namespace PracticeExercise1
 {
-	public class ArrayList : IList
-	{
+    public class ArrayList : IList
+    {
         private int[] array;
         private int length;
 
-		public ArrayList()
-		{
+        public ArrayList()
+        {
             array = new int[16];
             length = 0;
-		}
+        }
 
         /// <summary>
         /// Returns first element in list, null if empty.
         /// </summary>
         public int? First
         {
-            //get
-            //{
-            //    if (IsEmpty)
-            //    {
-            //        return null;
-            //    }
-            //    else
-            //    {
-            //        return array[0];
-            //    }
-            //}
-
             get => IsEmpty ? null : array[0];
         }
 
-        // TODO
-        /// <summary>
-        /// Returns last element in list, null if empty.
-        /// </summary>
-        public int? Last { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        // TOD0
+        public int? Last { get => IsEmpty ? null : array[Length - 1]; }
 
         /// <summary>
         /// Returns true if list is has no elements; false otherwise.
@@ -55,7 +40,7 @@ namespace PracticeExercise1
         /// <param name="value"></param>
         public void Append(int value)
         {
-            if(Length == array.Length)
+            if (Length == array.Length)
             {
                 Resize();
             }
@@ -71,9 +56,9 @@ namespace PracticeExercise1
         /// <returns>true if value is in list; false otherwise</returns>
         public bool Contains(int value)
         {
-            for(int i=0; i < Length; i++)
+            for (int i = 0; i < Length; i++)
             {
-                if( array[i] == value)
+                if (array[i] == value)
                 {
                     return true;
                 }
@@ -90,7 +75,11 @@ namespace PracticeExercise1
         /// <returns>Index of first element with value; -1 if element is not found</returns>
         public int FirstIndexOf(int value)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < Length; i++)
+            {
+                if (array[i] == value) { return i; }
+            }
+            return -1;
         }
 
         // TODO
@@ -102,7 +91,18 @@ namespace PracticeExercise1
         /// <param name="existingValue"></param>
         public void InsertAfter(int newValue, int existingValue)
         {
-            throw new NotImplementedException();
+            if (Length == array.Length)
+            {
+                Resize();
+            }
+            if (Contains(existingValue) == false)
+            {
+                Append(newValue);
+            }
+            else
+            {
+                InsertAt(newValue, FirstIndexOf(existingValue) + 1);
+            }
         }
 
         // TODO
@@ -113,7 +113,17 @@ namespace PracticeExercise1
         /// <param name="index"></param>
         public void InsertAt(int value, int index)
         {
-            throw new NotImplementedException();
+            if (Length == array.Length)
+            {
+                Resize();
+            }
+            if (index > Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            ShiftRight(index);
+            array[index] = value;
+            length++;
         }
 
         /// <summary>
@@ -137,17 +147,17 @@ namespace PracticeExercise1
 
         private void ShiftRight(int index)
         {
-            for(int i = Length-1; i >= index; i--)
+            for (int i = Length - 1; i >= index; i--)
             {
                 array[i + 1] = array[i];
             }
         }
 
-        private void ShiftLeft( int startingIndex)
+        private void ShiftLeft(int startingIndex)
         {
-            for(int i = startingIndex+1; i <= Length; i++ )
+            for (int i = startingIndex + 1; i <= Length; i++)
             {
-                array[i-1] = array[i];
+                array[i - 1] = array[i];
             }
         }
 
@@ -159,7 +169,11 @@ namespace PracticeExercise1
         /// <param name="value">value of item to be removed</param>
         public void Remove(int value)
         {
-            throw new NotImplementedException();
+            int FI = FirstIndexOf(value);
+            if (FI != -1)
+            {
+                Remove(FI);
+            }
         }
 
         // TODO
@@ -169,15 +183,28 @@ namespace PracticeExercise1
         /// <param name="index"></param>
         public void RemoveAt(int index)
         {
+            if (IsEmpty == true)
+            {
+                throw new NotImplementedException();
+            }
+            if (index > Length - 1 || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
             ShiftLeft(index);
             length--;
         }
 
         public override string ToString()
         {
+            if (this.IsEmpty)
+            {
+                return "[}";
+            }
+            // caused problems and I dont know why
             string str = "[ ";
 
-            for(int i=0; i < Length-1; i++)
+            for (int i = 0; i < Length - 1; i++)
             {
                 str += array[i] + ", ";
             }
@@ -196,7 +223,7 @@ namespace PracticeExercise1
         /// <returns>The element at the given index.</returns>
         public int Get(int index)
         {
-            if(index > Length - 1 || index < 0)
+            if (index > Length - 1 || index < 0)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -223,7 +250,7 @@ namespace PracticeExercise1
         {
             IList reverse = new ArrayList();
 
-            for(int i = 0; i < Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 reverse.Prepend(array[i]);
             }
@@ -239,4 +266,6 @@ namespace PracticeExercise1
 
     }
 }
+
+
 
